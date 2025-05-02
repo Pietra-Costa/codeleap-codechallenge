@@ -3,13 +3,14 @@ import { useAuth } from "./context/authcontext";
 import { AuthProvider } from "./context/authcontext";
 import LoginPage from "./pages/auth/login";
 import Main from "./pages/main/main";
+import RegisterPage from "./pages/auth/register/register";
+import Intro from "./components/intro/intro";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
-import RegisterPage from "./pages/auth/register/register";
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -23,7 +24,7 @@ const ProtectedRoute = ({ children }) => {
   }
 
   if (!user) {
-    return <Navigate to="/" />;
+    return <Navigate to="/login" />;
   }
 
   return children;
@@ -34,7 +35,8 @@ const App = () => {
     <AuthProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/" element={<Intro />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route
             path="/main"
