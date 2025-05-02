@@ -6,7 +6,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { useAuth } from "../../../context/AuthContext";
+import { useAuth } from "../../../context/authcontext";
 import { FaGoogle } from "react-icons/fa";
 import { toast } from "react-toastify";
 import CustomToast from "../../../components/toast/toast";
@@ -22,7 +22,7 @@ const LoginPage = () => {
     if (user) navigate("/main");
   }, [user, navigate]);
 
-  const handleLogin = async (e) => {
+  const handleLogin = async e => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -39,7 +39,7 @@ const LoginPage = () => {
     }
   };
 
-  const handleGoogleLogin = async (e) => {
+  const handleGoogleLogin = async e => {
     e.preventDefault();
 
     const provider = new GoogleAuthProvider();
@@ -69,7 +69,7 @@ const LoginPage = () => {
             type="email"
             placeholder="Username"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={e => setEmail(e.target.value)}
             className="mb-2 border border-[#777777] rounded-lg w-[452px] h-8 placeholder:text-[#CCCCCC] placeholder:text-[14px] p-2"
           />
 
@@ -77,7 +77,7 @@ const LoginPage = () => {
             type="password"
             placeholder="Senha"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={e => setPassword(e.target.value)}
             className=" mb-4 border border-[#777777] rounded-lg w-[452px] h-8 placeholder:text-[#CCCCCC] placeholder:text-[14px] p-2"
           />
 

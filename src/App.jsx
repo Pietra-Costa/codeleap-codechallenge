@@ -1,6 +1,6 @@
 import React from "react";
-import { useAuth } from "./context/AuthContext"; // ✅
-import { AuthProvider } from "./context/AuthContext";
+import { useAuth } from "./context/authcontext";
+import { AuthProvider } from "./context/authcontext";
 import LoginPage from "./pages/auth/login";
 import Main from "./pages/main/main";
 import {
@@ -12,10 +12,20 @@ import {
 import RegisterPage from "./pages/auth/register/register";
 
 const ProtectedRoute = ({ children }) => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen text-gray-500">
+        Carregando...
+      </div>
+    );
+  }
+
   if (!user) {
     return <Navigate to="/" />;
   }
+
   return children;
 };
 
