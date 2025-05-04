@@ -28,9 +28,9 @@ const MentionInput = ({ value, onChange, onKeyDown, disabled }) => {
       onChange={onChange}
       onKeyDown={onKeyDown}
       style={mentionStyle}
-      className="mention-input w-full min-h-[100px] p-3 border border-primary/60 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent pr-12"
+      className="mention-input w-full min-h-[100px] p-3 border border-primary/60 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent pr-12 bg-transparent dark:bg-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500"
       disabled={disabled}
-      placeholder="Escreva um comentário..."
+      placeholder="Hello World"
       highlighter="blue"
     >
       <Mention

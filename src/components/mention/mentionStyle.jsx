@@ -1,7 +1,6 @@
-// mentionStyle.js
 const mentionStyle = {
   control: {
-    backgroundColor: "white",
+    backgroundColor: "transparent",
     fontSize: 16,
     fontWeight: "normal",
     padding: "10px",
@@ -21,15 +20,17 @@ const mentionStyle = {
   },
   suggestions: {
     list: {
-      backgroundColor: "white",
+      backgroundColor: "#7695ec",
       border: "1px solid rgba(0,0,0,0.15)",
-      fontSize: 16,
+      fontSize: 14,
+      maxHeight: "200px",
+      overflowY: "auto",
     },
     item: {
       padding: "5px 15px",
       borderBottom: "1px solid #ddd",
       "&focused": {
-        backgroundColor: "#e2e8f0",
+        backgroundColor: " #7695ec",
       },
     },
   },

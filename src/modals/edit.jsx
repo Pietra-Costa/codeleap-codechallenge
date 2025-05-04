@@ -19,7 +19,7 @@ export default function EditModal({
 
   return (
     <div className="fixed inset-0 bg-[#777777CC] bg-opacity-80  flex items-center justify-center z-50">
-      <div className="bg-white sm:m-4 m-2 p-4 sm:p-6 rounded-xl w-full sm:w-[660px] max-w-[660px]">
+      <div className="bg-white dark:bg-gray-700 sm:m-4 m-2 p-4 sm:p-6 rounded-xl w-full sm:w-[660px] max-w-[660px]">
         <h2 className="text-[22px] font-bold mb-6">Edit Item</h2>
         <label className="font-normal text-base ">Title</label>
         <input

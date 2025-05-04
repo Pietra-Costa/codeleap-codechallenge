@@ -70,7 +70,7 @@ function Comments({ postId, postOwner }) {
   };
 
   return (
-    <div className="border-t border-primary p-6 bg-white rounded-xl shadow-lg">
+    <div className="border-t border-primary p-6 bg-white dark:bg-gray-700 rounded-xl shadow-lg">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-[20px] font-bold">Comments</h2>
         <button
@@ -107,7 +107,7 @@ function Comments({ postId, postOwner }) {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <p className="font-semibold text-[#777777] truncate">
+                        <p className="font-semibold text-[#777777] dark:text-white truncate">
                           @{comment.userName}
                         </p>
                         <span className="text-xs text-gray-400">
@@ -125,7 +125,7 @@ function Comments({ postId, postOwner }) {
                     {canDeleteComment(comment) && (
                       <button
                         onClick={() => handleDeleteComment(comment.id)}
-                        className="opacity-100 group-hover:opacity-100 text-[20px] text-gray-400 hover:text-primary transition-all duration-200"
+                        className="opacity-100 group-hover:opacity-100 text-[20px] dark:text-white text-gray-400 hover:text-primary transition-all duration-200"
                         title="Excluir comentário"
                       >
                         <TbTrashXFilled />
@@ -144,6 +144,7 @@ function Comments({ postId, postOwner }) {
                 onChange={(event, newValue) => setNewComment(newValue)}
                 onKeyDown={handleKeyDown}
                 disabled={isSubmitting}
+                className={"bg-transparent"}
               />
 
               <button

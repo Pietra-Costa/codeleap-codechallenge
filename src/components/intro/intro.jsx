@@ -108,22 +108,22 @@ const Intro = () => {
 
       <div className="relative z-10 text-center px-4">
         <h1 className="text-7xl md:text-9xl font-extrabold mb-6">
-          <span className="text-[#7695EC]">CODE</span>
+          <span className="text-primary">CODE</span>
           <span className="text-white">LEAP</span>
         </h1>
 
         <div className="w-full max-w-md mx-auto h-2 bg-gray-900 rounded-full overflow-hidden mb-8">
-          <div className="h-full bg-gradient-to-r from-[#7695EC] to-[#9ab1ff] progress-bar-animation" />
+          <div className="h-full bg-gradient-to-r from-primary to-[#9ab1ff] progress-bar-animation" />
         </div>
 
-        <p className="text-[#7695EC] font-mono tracking-widest text-lg md:text-xl">
+        <p className="text-primary font-mono tracking-widest text-lg md:text-xl">
           INITIALIZING NETWORK...
         </p>
       </div>
 
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#7695EC] rounded-full opacity-10 blur-[80px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-[#7695EC] rounded-full opacity-10 blur-[80px] animate-pulse" />
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary rounded-full opacity-10 blur-[80px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-primaryrounded-full opacity-10 blur-[80px] animate-pulse" />
       </div>
 
       <style jsx>{`

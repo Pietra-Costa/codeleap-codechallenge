@@ -7,6 +7,7 @@ import EditModal from "../../modals/edit";
 import DeleteModal from "../../modals/delete";
 import LikeButton from "../likes/likeButton";
 import Comments from "../comments/comments";
+import { VscRobot } from "react-icons/vsc";
 
 export default function Feed({ refresh }) {
   const { user } = useAuth();
@@ -148,7 +149,7 @@ export default function Feed({ refresh }) {
             placeholder="Search..."
             value={filterText}
             onChange={e => setFilterText(e.target.value)}
-            className="w-full p-2 pl-8 border border-primary rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="placeholder:text-[#777777CC] w-full p-2 pl-8 border border-primary rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
           />
           <svg
             className="absolute left-2 top-2.5 h-4 w-4 text-primary"
@@ -171,7 +172,7 @@ export default function Feed({ refresh }) {
             className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
               filterType === "all"
                 ? "bg-primary text-white"
-                : "bg-gray-100 hover:bg-gray-200"
+                : "bg-gray-100 hover:bg-gray-200 text-primary"
             }`}
           >
             Todos
@@ -181,7 +182,7 @@ export default function Feed({ refresh }) {
             className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
               filterType === "mine"
                 ? "bg-primary text-white"
-                : "bg-gray-100 hover:bg-gray-200"
+                : "bg-gray-100 hover:bg-gray-200 text-primary"
             }`}
           >
             Meus
@@ -214,8 +215,8 @@ export default function Feed({ refresh }) {
             )}
           </div>
 
-          <div className="p-4 bg-white">
-            <p className="text-sm text-[#777777] font-bold mb-4">
+          <div className="p-4 bg-white dark:bg-gray-700">
+            <p className="text-sm text-[#777777] dark:text-primary font-bold mb-4">
               @{post.username}
             </p>
             <p className="font-normal text-[18px]">{post.content}</p>
@@ -234,11 +235,12 @@ export default function Feed({ refresh }) {
             </div>
           </div>
 
-          <LikeButton postId={post.id} initialLikes={post.likes || []} />
+          <div className="dark:bg-gray-700">
+            <LikeButton postId={post.id} initialLikes={post.likes || []} />
+          </div>
           <Comments postId={post.id} postOwner={post.username} />
         </div>
       ))}
-
       {isImageEnlarged && selectedImage && (
         <div
           className="fixed top-0 left-0 right-0 bottom-0 bg-[#777777CC] bg-opacity-80 bg-opacity-50 flex justify-center items-center z-50"
@@ -247,28 +249,30 @@ export default function Feed({ refresh }) {
           <img
             src={selectedImage}
             alt="Enlarged"
-            className="w-5xl max-h-full object-contain"
+            className="w-2xl max-h-full object-contain"
           />
         </div>
       )}
 
       {!hasMorePosts && (
-        <div className="text-center text-sm text-gray-500 mt-4">
-          Não há mais posts para carregar.
+        <div className="text-center mt-6 animate-[fadeIn_0.5s_ease-in]">
+          <div className="inline-flex flex-col items-center">
+            <VscRobot className="text-primary text-3xl mb-1 animate-[bounce_2s_ease-in-out_infinite]" />
+
+            <p className="text-primary text-sm font-medium">No more posts...</p>
+          </div>
         </div>
       )}
-
       <EditModal
         isOpen={editModalOpen}
         onClose={() => {
           setEditModalOpen(false);
-          setEditData({ id: null, title: "", content: "" }); // Limpar os dados após fechar o modal
+          setEditData({ id: null, title: "", content: "" });
         }}
         onSave={handleEditSave}
         initialTitle={editData.title}
         initialContent={editData.content}
       />
-
       <DeleteModal
         isOpen={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}

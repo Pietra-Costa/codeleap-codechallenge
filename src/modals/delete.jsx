@@ -5,7 +5,7 @@ export default function DeleteModal({ isOpen, onClose, onConfirm }) {
 
   return (
     <div className="fixed inset-0 bg-[#777777CC] bg-opacity-80 flex items-center justify-center z-50">
-      <div className="bg-white rounded-xl w-[90%] sm:w-[660px] max-w-[660px] h-auto sm:h-[146px] p-6">
+      <div className="bg-white dark:bg-gray-700 rounded-xl w-[90%] sm:w-[660px] max-w-[660px] h-auto sm:h-[146px] p-6">
         <h2 className="text-[22px] font-bold mb-[40px] sm:text-left">
           Are you sure you want to delete this item?
         </h2>
