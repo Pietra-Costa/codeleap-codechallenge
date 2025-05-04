@@ -1,12 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../firebase/firebaseConfig";
 import { onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const db = getDatabase(); // Referência ao Realtime Database do Firebase
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, firebaseUser => {
@@ -18,6 +20,20 @@ export const AuthProvider = ({ children }) => {
             firebaseUser.displayName || firebaseUser.email.split("@")[0],
           photoURL: firebaseUser.photoURL,
         });
+
+        // Adicionando dados do usuário no Realtime Database sempre que ele fizer login
+        const userRef = ref(db, "users/" + firebaseUser.uid);
+        set(userRef, {
+          displayName: firebaseUser.displayName,
+          email: firebaseUser.email,
+          avatar: firebaseUser.photoURL || "default-avatar-url",
+        })
+          .then(() => {
+            console.log("Dados do usuário salvos no Realtime Database!");
+          })
+          .catch(error => {
+            console.error("Erro ao salvar dados no Realtime Database:", error);
+          });
       } else {
         setUser(null);
       }
@@ -25,7 +41,7 @@ export const AuthProvider = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [db]);
 
   const updateUserProfile = async displayName => {
     try {

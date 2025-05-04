@@ -49,6 +49,8 @@ export default function Feed({ refresh }) {
       await deletePost(postIdToDelete);
 
       localStorage.removeItem(`postImage_${postIdToDelete}`);
+      localStorage.removeItem(`likes_${postIdToDelete}`);
+      localStorage.removeItem(`comments_${postIdToDelete}`);
 
       setDeleteModalOpen(false);
       getPosts();
