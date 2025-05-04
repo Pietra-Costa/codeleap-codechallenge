@@ -8,7 +8,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const db = getDatabase(); // Referência ao Realtime Database do Firebase
+  const db = getDatabase();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, firebaseUser => {
@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }) => {
           photoURL: firebaseUser.photoURL,
         });
 
-        // Adicionando dados do usuário no Realtime Database sempre que ele fizer login
         const userRef = ref(db, "users/" + firebaseUser.uid);
         set(userRef, {
           displayName: firebaseUser.displayName,

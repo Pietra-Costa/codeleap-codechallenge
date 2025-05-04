@@ -37,7 +37,7 @@ const RegisterPage = () => {
         password
       );
       const user = userCredential.user;
-      console.log("Usuário registrado com sucesso:", user);
+      // console.log("Usuário registrado com sucesso:", user);
       navigate("/main");
     } catch (err) {
       console.error("Erro ao criar conta:", err.message);
