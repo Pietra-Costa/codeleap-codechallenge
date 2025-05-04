@@ -21,21 +21,41 @@ export default function Feed({ refresh }) {
   const [posts, setPosts] = useState([]);
   const [filterText, setFilterText] = useState("");
   const [filterType, setFilterType] = useState("all");
+  const [loading, setLoading] = useState(false);
+  const [hasMorePosts, setHasMorePosts] = useState(true);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     getPosts();
   }, [refresh]);
 
   const getPosts = async () => {
+    if (loading) return;
+
+    setLoading(true);
     try {
-      const data = await fetchPosts();
+      const data = await fetchPosts(page, 10);
       const postsWithImages = data.results.map(post => {
         const image = localStorage.getItem(`postImage_${post.id}`);
         return image ? { ...post, image } : post;
       });
-      setPosts(postsWithImages);
+
+      if (data.results.length < 10) {
+        setHasMorePosts(false);
+      }
+
+      setPosts(prevPosts => {
+        const newPosts = postsWithImages.filter(
+          post => !prevPosts.some(existingPost => existingPost.id === post.id)
+        );
+        return [...prevPosts, ...newPosts];
+      });
+
+      setPage(prevPage => prevPage + 1);
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -82,10 +102,18 @@ export default function Feed({ refresh }) {
         post.username.toLowerCase().includes(text)
       );
     })
-    .sort((a, b) => (filterType === "recent" ? b.id - a.id : 0));
+    .sort((a, b) => b.id - a.id);
+
+  const handleScroll = e => {
+    const bottom =
+      e.target.scrollHeight === e.target.scrollTop + e.target.clientHeight;
+    if (bottom && hasMorePosts) {
+      getPosts();
+    }
+  };
 
   return (
-    <div className="space-y-6 m-6">
+    <div className="space-y-6 m-6" onScroll={handleScroll}>
       <div className="mb-4 space-y-2">
         <div className="relative">
           <input
@@ -165,21 +193,29 @@ export default function Feed({ refresh }) {
             </p>
             <p className="font-normal text-[18px]">{post.content}</p>
 
-            {post.image && (
-              <div className="mt-4">
-                <img
-                  src={post.image}
-                  alt="uploaded"
-                  className="max-w-xs rounded-lg border"
-                />
-              </div>
-            )}
+            <div className="flex justify-center">
+              {post.image && (
+                <div className="mt-4">
+                  <img
+                    src={post.image}
+                    alt="uploaded"
+                    className="max-w-xs rounded-lg border border-primary"
+                  />
+                </div>
+              )}
+            </div>
           </div>
 
           <LikeButton postId={post.id} initialLikes={post.likes || []} />
           <Comments postId={post.id} />
         </div>
       ))}
+
+      {!hasMorePosts && (
+        <div className="text-center text-sm text-gray-500 mt-4">
+          Não há mais posts para carregar.
+        </div>
+      )}
 
       <EditModal
         isOpen={editModalOpen}

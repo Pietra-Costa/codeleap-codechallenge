@@ -1,9 +1,15 @@
 const BASE_URL = "https://dev.codeleap.co.uk/careers/";
 
-export const fetchPosts = async () => {
+// export const fetchPosts = async () => {
+//   const response = await fetch(BASE_URL);
+//   if (!response.ok) throw new Error("Failed to fetch posts");
+//   return response.json();
+// };
+
+export const fetchPosts = async (page = 1, limit = 10) => {
   const response = await fetch(BASE_URL);
-  if (!response.ok) throw new Error("Failed to fetch posts");
-  return response.json();
+  const data = await response.json();
+  return data;
 };
 
 export const createPost = async postData => {
