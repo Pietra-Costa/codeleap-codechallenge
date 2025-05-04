@@ -207,7 +207,7 @@ export default function Feed({ refresh }) {
           </div>
 
           <LikeButton postId={post.id} initialLikes={post.likes || []} />
-          <Comments postId={post.id} />
+          <Comments postId={post.id} postOwner={post.username} />
         </div>
       ))}
 

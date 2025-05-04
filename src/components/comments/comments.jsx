@@ -5,7 +5,7 @@ import { SiTheconversation } from "react-icons/si";
 import { TbTrashXFilled } from "react-icons/tb";
 import MentionInput from "../mention/mentionInput";
 
-function Comments({ postId }) {
+function Comments({ postId, postOwner }) {
   const { user } = useAuth();
   const userName = user?.displayName || "Anônimo";
   const [comments, setComments] = useState([]);
@@ -65,6 +65,10 @@ function Comments({ postId }) {
     }
   };
 
+  const canDeleteComment = comment => {
+    return comment.userName === userName || postOwner === userName;
+  };
+
   return (
     <div className="border-t border-primary p-6 bg-white rounded-xl shadow-lg">
       <div className="flex items-center justify-between mb-4">
@@ -118,13 +122,15 @@ function Comments({ postId }) {
                       </div>
                       <p className="mt-1 whitespace-pre-line">{comment.text}</p>
                     </div>
-                    <button
-                      onClick={() => handleDeleteComment(comment.id)}
-                      className="opacity-100 group-hover:opacity-100 text-[20px] text-gray-400 hover:text-primary transition-all duration-200"
-                      title="Excluir comentário"
-                    >
-                      <TbTrashXFilled />
-                    </button>
+                    {canDeleteComment(comment) && (
+                      <button
+                        onClick={() => handleDeleteComment(comment.id)}
+                        className="opacity-100 group-hover:opacity-100 text-[20px] text-gray-400 hover:text-primary transition-all duration-200"
+                        title="Excluir comentário"
+                      >
+                        <TbTrashXFilled />
+                      </button>
+                    )}
                   </div>
                 </div>
               ))
@@ -133,14 +139,6 @@ function Comments({ postId }) {
 
           <div className="border-t border-gray-200 pt-4">
             <div className="relative">
-              {/* <textarea
-                value={newComment}
-                onChange={e => setNewComment(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Escreva um comentário..."
-                className="w-full p-3 border border-primary/60 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all min-h-[100px] pr-12"
-                disabled={isSubmitting}
-              /> */}
               <MentionInput
                 value={newComment}
                 onChange={(event, newValue) => setNewComment(newValue)}
