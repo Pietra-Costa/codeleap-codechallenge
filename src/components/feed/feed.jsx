@@ -8,6 +8,8 @@ import DeleteModal from "../../modals/delete";
 import LikeButton from "../likes/likeButton";
 import Comments from "../comments/comments";
 import { VscRobot } from "react-icons/vsc";
+import { formatDistanceToNow } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 export default function Feed({ refresh }) {
   const { user } = useAuth();
@@ -201,13 +203,13 @@ export default function Feed({ refresh }) {
               <div className="space-x-6">
                 <button
                   onClick={() => handleDeleteRequest(post.id)}
-                  className="text-white text-[22px]"
+                  className="text-white text-[22px] transition-transform transform hover:scale-110 active:scale-90"
                 >
                   <TbTrashXFilled />
                 </button>
                 <button
                   onClick={() => handleEdit(post.id, post.title, post.content)}
-                  className="text-white text-[22px] font-bold"
+                  className="text-white text-[22px] font-bold transition-transform transform hover:scale-110 active:scale-90"
                 >
                   <HiPencilSquare />
                 </button>
@@ -216,9 +218,16 @@ export default function Feed({ refresh }) {
           </div>
 
           <div className="p-4 bg-white dark:bg-gray-700">
-            <p className="text-sm text-[#777777] dark:text-primary font-bold mb-4">
-              @{post.username}
-            </p>
+            <div className="flex justify-between">
+              <p className="text-[18px] text-[#777777] dark:text-primary font-bold mb-4">
+                @{post.username}
+              </p>
+              <p className="text-[18px] text-[#777777] mt-1">
+                {formatDistanceToNow(new Date(post.created_datetime), {
+                  addSuffix: true,
+                })}
+              </p>
+            </div>
             <p className="font-normal text-[18px]">{post.content}</p>
 
             <div className="flex justify-center">
