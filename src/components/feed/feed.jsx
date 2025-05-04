@@ -10,6 +10,7 @@ import Comments from "../comments/comments";
 import { VscRobot } from "react-icons/vsc";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { motion } from "framer-motion";
 
 export default function Feed({ refresh }) {
   const { user } = useAuth();
@@ -142,6 +143,18 @@ export default function Feed({ refresh }) {
     }
   };
 
+  const postAnimation = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
     <div className="space-y-6 m-6" onScroll={handleScroll}>
       <div className="mb-4 space-y-2">
@@ -169,50 +182,63 @@ export default function Feed({ refresh }) {
         </div>
 
         <div className="flex flex-wrap gap-1">
-          <button
+          <motion.button
             onClick={() => setFilterType("all")}
             className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
               filterType === "all"
                 ? "bg-primary text-white"
                 : "bg-gray-100 hover:bg-gray-200 text-primary"
             }`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             Todos
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             onClick={() => setFilterType("mine")}
             className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
               filterType === "mine"
                 ? "bg-primary text-white"
                 : "bg-gray-100 hover:bg-gray-200 text-primary"
             }`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             Meus
-          </button>
+          </motion.button>
         </div>
       </div>
 
-      {filteredPosts.map(post => (
-        <div
+      {filteredPosts.map((post, index) => (
+        <motion.div
           key={post.id}
           className="rounded-2xl shadow overflow-hidden border border-[#999999]"
+          initial="hidden"
+          animate="visible"
+          variants={postAnimation}
+          transition={{ delay: index * 0.1 }}
+          whileHover={{ y: -3 }}
         >
           <div className="flex justify-between items-center bg-primary px-4 py-2">
             <h3 className="text-[22px] font-bold text-white">{post.title}</h3>
             {post.username === user.displayName && (
               <div className="space-x-6">
-                <button
+                <motion.button
                   onClick={() => handleDeleteRequest(post.id)}
                   className="text-white text-[22px] transition-transform transform hover:scale-110 active:scale-90"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                 >
                   <TbTrashXFilled />
-                </button>
-                <button
+                </motion.button>
+                <motion.button
                   onClick={() => handleEdit(post.id, post.title, post.content)}
                   className="text-white text-[22px] font-bold transition-transform transform hover:scale-110 active:scale-90"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                 >
                   <HiPencilSquare />
-                </button>
+                </motion.button>
               </div>
             )}
           </div>
@@ -232,14 +258,14 @@ export default function Feed({ refresh }) {
 
             <div className="flex justify-center">
               {post.image && (
-                <div className="mt-4">
+                <motion.div className="mt-4" whileHover={{ scale: 1.02 }}>
                   <img
                     src={post.image}
                     alt="uploaded"
                     className="max-w-xs rounded-lg border border-primary cursor-pointer"
                     onClick={() => handleImageClick(post.image)}
                   />
-                </div>
+                </motion.div>
               )}
             </div>
           </div>
@@ -248,30 +274,42 @@ export default function Feed({ refresh }) {
             <LikeButton postId={post.id} initialLikes={post.likes || []} />
           </div>
           <Comments postId={post.id} postOwner={post.username} />
-        </div>
+        </motion.div>
       ))}
+
       {isImageEnlarged && selectedImage && (
-        <div
-          className="fixed top-0 left-0 right-0 bottom-0 bg-[#777777CC] bg-opacity-80 bg-opacity-50 flex justify-center items-center z-50"
+        <motion.div
+          className="fixed top-0 left-0 right-0 bottom-0 bg-[#777777CC] bg-opacity-80 flex justify-center items-center z-50"
           onClick={() => setIsImageEnlarged(false)}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
         >
-          <img
+          <motion.img
             src={selectedImage}
             alt="Enlarged"
             className="w-2xl max-h-full object-contain"
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 100 }}
           />
-        </div>
+        </motion.div>
       )}
 
       {!hasMorePosts && (
-        <div className="text-center mt-6 animate-[fadeIn_0.5s_ease-in]">
+        <motion.div
+          className="text-center mt-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
           <div className="inline-flex flex-col items-center">
             <VscRobot className="text-primary text-3xl mb-1 animate-[bounce_2s_ease-in-out_infinite]" />
-
             <p className="text-primary text-sm font-medium">No more posts...</p>
           </div>
-        </div>
+        </motion.div>
       )}
+
       <EditModal
         isOpen={editModalOpen}
         onClose={() => {
