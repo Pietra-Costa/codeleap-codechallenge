@@ -24,6 +24,8 @@ export default function Feed({ refresh }) {
   const [loading, setLoading] = useState(false);
   const [hasMorePosts, setHasMorePosts] = useState(true);
   const [page, setPage] = useState(1);
+  const [isImageEnlarged, setIsImageEnlarged] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
 
   useEffect(() => {
     getPosts();
@@ -73,7 +75,10 @@ export default function Feed({ refresh }) {
       localStorage.removeItem(`comments_${postIdToDelete}`);
 
       setDeleteModalOpen(false);
-      getPosts();
+
+      setPosts(prevPosts =>
+        prevPosts.filter(post => post.id !== postIdToDelete)
+      );
     } catch (err) {
       console.error("Erro ao excluir post:", err);
     }
@@ -85,9 +90,21 @@ export default function Feed({ refresh }) {
   };
 
   const handleEditSave = async (newTitle, newContent) => {
-    await editPost(editData.id, { title: newTitle, content: newContent });
-    setEditModalOpen(false);
-    getPosts();
+    try {
+      await editPost(editData.id, { title: newTitle, content: newContent });
+
+      setPosts(prevPosts =>
+        prevPosts.map(post =>
+          post.id === editData.id
+            ? { ...post, title: newTitle, content: newContent }
+            : post
+        )
+      );
+
+      setEditModalOpen(false);
+    } catch (err) {
+      console.error("Erro ao editar post:", err);
+    }
   };
 
   const filteredPosts = posts
@@ -109,6 +126,16 @@ export default function Feed({ refresh }) {
       e.target.scrollHeight === e.target.scrollTop + e.target.clientHeight;
     if (bottom && hasMorePosts) {
       getPosts();
+    }
+  };
+
+  const handleImageClick = imageSrc => {
+    if (isImageEnlarged && selectedImage === imageSrc) {
+      setIsImageEnlarged(false);
+      setSelectedImage("");
+    } else {
+      setIsImageEnlarged(true);
+      setSelectedImage(imageSrc);
     }
   };
 
@@ -199,7 +226,8 @@ export default function Feed({ refresh }) {
                   <img
                     src={post.image}
                     alt="uploaded"
-                    className="max-w-xs rounded-lg border border-primary"
+                    className="max-w-xs rounded-lg border border-primary cursor-pointer"
+                    onClick={() => handleImageClick(post.image)}
                   />
                 </div>
               )}
@@ -211,6 +239,19 @@ export default function Feed({ refresh }) {
         </div>
       ))}
 
+      {isImageEnlarged && selectedImage && (
+        <div
+          className="fixed top-0 left-0 right-0 bottom-0 bg-[#777777CC] bg-opacity-80 bg-opacity-50 flex justify-center items-center z-50"
+          onClick={() => setIsImageEnlarged(false)}
+        >
+          <img
+            src={selectedImage}
+            alt="Enlarged"
+            className="w-5xl max-h-full object-contain"
+          />
+        </div>
+      )}
+
       {!hasMorePosts && (
         <div className="text-center text-sm text-gray-500 mt-4">
           Não há mais posts para carregar.
@@ -219,7 +260,10 @@ export default function Feed({ refresh }) {
 
       <EditModal
         isOpen={editModalOpen}
-        onClose={() => setEditModalOpen(false)}
+        onClose={() => {
+          setEditModalOpen(false);
+          setEditData({ id: null, title: "", content: "" }); // Limpar os dados após fechar o modal
+        }}
         onSave={handleEditSave}
         initialTitle={editData.title}
         initialContent={editData.content}
