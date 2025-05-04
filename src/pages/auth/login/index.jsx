@@ -65,7 +65,6 @@ const LoginPage = () => {
   return (
     <div className="flex items-center justify-center h-dvh">
       <div className="bg-white w-[500px] h-auto rounded-2xl p-[24px] relative overflow-hidden">
-        {/* Barra de loading */}
         {isLoading && (
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-200">
             <div
@@ -81,10 +80,10 @@ const LoginPage = () => {
         )}
 
         <h2 className="text-[22px] font-display font-bold mb-6">
-          Welcome to CodeLeap network!
+          Welcome to CodeLeap Network!
         </h2>
         <p className="text-[16px] font-normal mb-2">
-          Please enter your username
+          Please enter your username:
         </p>
 
         <form onSubmit={handleLogin}>
@@ -117,7 +116,7 @@ const LoginPage = () => {
             <button
               type="submit"
               disabled={!email || !password || isLoading}
-              className={`w-[111px] uppercase text-white p-1.5 rounded-lg ${
+              className={`w-[111px] h-[32px] uppercase text-white rounded-lg ${
                 !email || !password || isLoading
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-primary hover:bg-[#6785d6]"

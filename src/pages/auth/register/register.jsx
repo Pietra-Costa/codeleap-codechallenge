@@ -56,7 +56,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-50">
+    <div className="flex items-center justify-center h-screen bg-[#DDDDDD]">
       <div className="bg-white w-[500px] h-auto rounded-2xl p-[24px] relative overflow-hidden shadow-xl">
         {isLoading && (
           <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gray-100 overflow-hidden">
@@ -109,7 +109,7 @@ const RegisterPage = () => {
             <button
               type="submit"
               disabled={!email || !password || isLoading}
-              className={`w-[111px] h-10 uppercase text-white rounded-lg flex items-center justify-center ${
+              className={`w-[111px] h-[32px]  uppercase text-white rounded-lg flex items-center justify-center ${
                 !email || !password || isLoading
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-[#7695EC] hover:bg-[#6785d6] active:bg-[#5a7bd9]"
