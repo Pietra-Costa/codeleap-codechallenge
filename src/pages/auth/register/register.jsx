@@ -3,6 +3,8 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase/firebaseConfig";
 import { Link, useNavigate } from "react-router-dom";
 import CustomToast from "../../../components/toast/toast";
+import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "react-toastify";
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
@@ -10,6 +12,7 @@ const RegisterPage = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [progress, setProgress] = useState(0);
 
   const simulateProgress = () => {
@@ -29,7 +32,9 @@ const RegisterPage = () => {
   const handleSignup = async e => {
     e.preventDefault();
     setIsLoading(true);
+    setIsSubmitting(true);
     const progressInterval = simulateProgress();
+
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -37,7 +42,6 @@ const RegisterPage = () => {
         password
       );
       const user = userCredential.user;
-      // console.log("Usuário registrado com sucesso:", user);
       navigate("/main");
     } catch (err) {
       console.error("Erro ao criar conta:", err.message);
@@ -52,35 +56,57 @@ const RegisterPage = () => {
     } finally {
       clearInterval(progressInterval);
       setIsLoading(false);
+      setTimeout(() => setIsSubmitting(false), 1000);
     }
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-[#DDDDDD]">
-      <div className="bg-white w-[500px] h-auto rounded-2xl p-[24px] relative overflow-hidden shadow-xl">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="flex items-center justify-center h-screen bg-[#DDDDDD]"
+    >
+      <motion.div
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="bg-white w-[500px] h-auto rounded-2xl p-[24px] relative overflow-hidden shadow-xl"
+      >
         {isLoading && (
-          <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gray-100 overflow-hidden">
-            <div
-              className="h-full relative"
-              style={{
-                width: `${progress}%`,
-                transition: "width 0.4s cubic-bezier(0.65, 0, 0.35, 1)",
-              }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-[#7695EC] via-[#9ab1ff] to-[#7695EC] animate-gradient-flow" />
-            </div>
-          </div>
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: "100%" }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="absolute bottom-0 left-0 h-1.5 bg-gradient-to-r from-[#7695EC] via-[#9ab1ff] to-[#7695EC]"
+          />
         )}
 
-        <h2 className="text-[22px] font-display font-bold mb-6 text-gray-800">
+        <motion.h2
+          initial={{ x: -20, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ delay: 0.1 }}
+          className="text-[22px] font-display font-bold mb-6 text-gray-800"
+        >
           Create your account!
-        </h2>
-        <p className="text-[16px] font-normal mb-2 text-gray-600">
+        </motion.h2>
+
+        <motion.p
+          initial={{ x: -20, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="text-[16px] font-normal mb-2 text-gray-600"
+        >
           Please create a username and password
-        </p>
+        </motion.p>
 
         <form onSubmit={handleSignup} className="space-y-4">
-          <div>
+          <motion.div
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
             <input
               type="email"
               placeholder="Email"
@@ -89,9 +115,13 @@ const RegisterPage = () => {
               className="w-full h-10 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7695EC] focus:border-transparent transition-all"
               required
             />
-          </div>
+          </motion.div>
 
-          <div>
+          <motion.div
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
             <input
               type="password"
               placeholder="Password"
@@ -101,58 +131,94 @@ const RegisterPage = () => {
               required
               minLength={6}
             />
-          </div>
+          </motion.div>
 
-          {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
+          <AnimatePresence>
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="text-red-500 text-sm overflow-hidden"
+              >
+                {error}
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          <div className="flex justify-end pt-2">
-            <button
-              type="submit"
-              disabled={!email || !password || isLoading}
-              className={`w-[111px] h-[32px]  uppercase text-white rounded-lg flex items-center justify-center ${
-                !email || !password || isLoading
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-[#7695EC] hover:bg-[#6785d6] active:bg-[#5a7bd9]"
-              } transition-colors`}
-            >
-              {isLoading ? (
-                <span className="inline-block h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          <motion.div
+            className="flex justify-end pt-2"
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            <AnimatePresence mode="wait">
+              {isSubmitting ? (
+                <motion.button
+                  key="submitting"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.9, opacity: 0 }}
+                  type="submit"
+                  disabled
+                  className="w-[111px] h-[32px] uppercase text-white rounded-lg bg-[#7695EC] flex items-center justify-center"
+                >
+                  <motion.span
+                    animate={{ rotate: 360 }}
+                    transition={{
+                      duration: 1,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                    className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                  />
+                </motion.button>
               ) : (
-                "Create"
+                <motion.button
+                  key="normal"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.9, opacity: 0 }}
+                  type="submit"
+                  disabled={!email || !password || isLoading}
+                  whileHover={
+                    !email || !password || isLoading ? {} : { scale: 1.05 }
+                  }
+                  whileTap={
+                    !email || !password || isLoading ? {} : { scale: 0.95 }
+                  }
+                  className={`w-[111px] h-[32px] uppercase text-white rounded-lg ${
+                    !email || !password || isLoading
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-[#7695EC] hover:bg-[#6785d6]"
+                  }`}
+                >
+                  Create
+                </motion.button>
               )}
-            </button>
-          </div>
+            </AnimatePresence>
+          </motion.div>
         </form>
 
-        <div className="mt-6 text-center">
+        <motion.div
+          className="mt-6 text-center"
+          initial={{ y: 10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.6 }}
+        >
           <p className="text-sm text-gray-500">
             Already have an account?{" "}
             <Link
               to="/login"
-              className="text-[#7695EC] hover:underline font-medium"
+              className="text-[#7695EC] hover:underline font-medium transition-colors"
             >
               Sign In
             </Link>
           </p>
-        </div>
-
-        <style jsx global>{`
-          @keyframes gradient-flow {
-            0% {
-              background-position: 0% 50%;
-            }
-            100% {
-              background-position: 100% 50%;
-            }
-          }
-          .animate-gradient-flow {
-            background-size: 200% 100%;
-            animation: gradient-flow 1.5s linear infinite;
-          }
-        `}</style>
-      </div>
+        </motion.div>
+      </motion.div>
       <CustomToast />
-    </div>
+    </motion.div>
   );
 };
 

@@ -108,8 +108,8 @@ const Intro = () => {
 
       <div className="relative z-10 text-center px-4">
         <h1 className="text-7xl md:text-9xl font-extrabold mb-6">
-          <span className="text-primary">CODE</span>
-          <span className="text-white">LEAP</span>
+          <span className="text-primary font-intro">code</span>
+          <span className="text-white font-intro">leap</span>
         </h1>
 
         <div className="w-full max-w-md mx-auto h-2 bg-gray-900 rounded-full overflow-hidden mb-8">
