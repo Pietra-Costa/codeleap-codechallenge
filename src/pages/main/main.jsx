@@ -113,7 +113,8 @@ export default function Main() {
             <div className="flex flex-col mb-6">
               <label className="font-normal text-[16px] mb-2">Title</label>
               <input
-                className="border border-[#777777] rounded-lg p-2 placeholder:text-[#CCCCCC] text-[14px] font-normal dark:bg-gray-700 dark:border-gray-600"
+                className="border border-[#777777] rounded-lg p-2 placeholder:text-[#CCCCCC] text-[14px] font-normal dark:bg-gray-700 dark:border-gray-600 
+             focus:outline-none focus:border-primary focus:ring-0"
                 type="text"
                 placeholder="Hello World"
                 value={newPost.title}
@@ -126,7 +127,8 @@ export default function Main() {
             <div className="flex flex-col mb-4">
               <label className="font-normal text-[16px] mb-2">Content</label>
               <textarea
-                className="border border-[#777777] rounded-lg p-2 placeholder:text-[#CCCCCC] text-[14px] font-normal dark:bg-gray-700 dark:border-gray-600"
+                className="border border-[#777777] rounded-lg p-2 placeholder:text-[#CCCCCC] text-[14px] font-normal dark:bg-gray-700 dark:border-gray-600 
+             focus:outline-none focus:border-primary focus:ring-0"
                 name="content"
                 placeholder="Content Here"
                 value={newPost.content}
