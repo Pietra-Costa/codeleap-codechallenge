@@ -1,16 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/authcontext";
 import { IoIosArrowDown, IoIosArrowUp, IoMdSend } from "react-icons/io";
 import { SiTheconversation } from "react-icons/si";
 import { TbTrashXFilled } from "react-icons/tb";
+import MentionInput from "../mention/mentionInput";
 
-function Comments() {
+function Comments({ postId }) {
   const { user } = useAuth();
   const userName = user?.displayName || "Anônimo";
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
+  const localStorageKey = `comments_${postId}`;
+
+  useEffect(() => {
+    const storedComments = localStorage.getItem(localStorageKey);
+    if (storedComments) {
+      setComments(JSON.parse(storedComments));
+    }
+  }, [postId]);
+
+  useEffect(() => {
+    if (comments.length > 0) {
+      localStorage.setItem(localStorageKey, JSON.stringify(comments));
+    }
+  }, [comments, localStorageKey]);
 
   const handleAddComment = async () => {
     if (!newComment.trim()) return;
@@ -118,14 +133,21 @@ function Comments() {
 
           <div className="border-t border-gray-200 pt-4">
             <div className="relative">
-              <textarea
+              {/* <textarea
                 value={newComment}
                 onChange={e => setNewComment(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Escreva um comentário..."
                 className="w-full p-3 border border-primary/60 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all min-h-[100px] pr-12"
                 disabled={isSubmitting}
+              /> */}
+              <MentionInput
+                value={newComment}
+                onChange={(event, newValue) => setNewComment(newValue)}
+                onKeyDown={handleKeyDown}
+                disabled={isSubmitting}
               />
+
               <button
                 onClick={handleAddComment}
                 disabled={!newComment.trim() || isSubmitting}

@@ -1,21 +1,40 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/authcontext";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 
-function LikeButton({ postId, initialLikes = [] }) {
+function LikeButton({ postId, initialLikes = [], onPostDeleted }) {
   const { user } = useAuth();
-  const [likes, setLikes] = useState(initialLikes);
   const userId = user?.uid;
+  const localStorageKey = `likes_${postId}`;
+
+  const [likes, setLikes] = useState(() => {
+    const storedLikes = localStorage.getItem(localStorageKey);
+    return storedLikes ? JSON.parse(storedLikes) : initialLikes;
+  });
 
   const hasLiked = likes.includes(userId);
 
   const toggleLike = () => {
-    setLikes(prev =>
-      hasLiked ? prev.filter(id => id !== userId) : [...prev, userId]
-    );
+    const updatedLikes = hasLiked
+      ? likes.filter(id => id !== userId)
+      : [...likes, userId];
+    setLikes(updatedLikes);
+    localStorage.setItem(localStorageKey, JSON.stringify(updatedLikes));
   };
+
+  useEffect(() => {
+    if (onPostDeleted) {
+      onPostDeleted(postId);
+    }
+  }, [onPostDeleted, postId]);
+
+  useEffect(() => {
+    const storedLikes = localStorage.getItem(localStorageKey);
+    if (storedLikes) {
+      setLikes(JSON.parse(storedLikes));
+    }
+  }, [localStorageKey]);
 
   return (
     <div className="ml-4 py-2">
