@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { MentionsInput, Mention } from "react-mentions";
 import { getDatabase, ref, onValue } from "firebase/database";
 import mentionStyle from "./mentionStyle";
-import "./mention.css";
 
 const MentionInput = ({ value, onChange, onKeyDown, disabled }) => {
   const [mentionUsers, setMentionUsers] = useState([]);
