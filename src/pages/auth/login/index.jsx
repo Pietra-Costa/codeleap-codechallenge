@@ -6,7 +6,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { useAuth } from "../../../context/authcontext";
+import { useAuth } from "../../../context/authContext";
 import { FaGoogle } from "react-icons/fa";
 import { toast } from "react-toastify";
 import CustomToast from "../../../components/toast/toast";

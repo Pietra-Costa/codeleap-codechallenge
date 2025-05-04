@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "./context/authcontext";
-import { AuthProvider } from "./context/authcontext";
+import { useAuth } from "./context/authContext";
+import { AuthProvider } from "./context/authContext";
 import LoginPage from "./pages/auth/login";
 import Main from "./pages/main/main";
 import RegisterPage from "./pages/auth/register/register";

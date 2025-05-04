@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/authcontext";
+import { useAuth } from "../../context/authContext";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 

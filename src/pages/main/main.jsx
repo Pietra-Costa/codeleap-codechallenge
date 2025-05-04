@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createPost } from "../../services/api";
-import { useAuth } from "../../context/authcontext";
+import { useAuth } from "../../context/authContext";
 import Feed from "../../components/feed/feed";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { FiMoon, FiPaperclip, FiSun } from "react-icons/fi";

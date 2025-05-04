@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { deletePost, editPost, fetchPosts } from "../../services/api";
-import { useAuth } from "../../context/authcontext";
+import { useAuth } from "../../context/authContext";
 import { TbTrashXFilled } from "react-icons/tb";
 import { HiPencilSquare } from "react-icons/hi2";
 import EditModal from "../../modals/edit";

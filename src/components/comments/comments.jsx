@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/authcontext";
+import { useAuth } from "../../context/authContext";
 import { IoIosArrowDown, IoIosArrowUp, IoMdSend } from "react-icons/io";
 import { SiTheconversation } from "react-icons/si";
 import { TbTrashXFilled } from "react-icons/tb";
