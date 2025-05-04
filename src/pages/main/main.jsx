@@ -150,7 +150,7 @@ export default function Main() {
           </div>
 
           <div className="flex justify-end gap-4 relative">
-            <div className="flex justify-between items-end mt-4">
+            <div className="flex justify-between items-end mt-3">
               <label className="cursor-pointer">
                 <motion.div
                   whileHover={{ scale: 1.1 }}
@@ -211,7 +211,7 @@ export default function Main() {
               whileTap={{
                 scale: !newPost.title || !newPost.content ? 1 : 0.95,
               }}
-              className={`w-[120px] mt-4 rounded-lg text-white font-bold py-1.5 relative overflow-hidden ${
+              className={`w-[120px] h-[32px] mt-4 rounded-lg text-white font-bold  relative overflow-hidden ${
                 !newPost.title || !newPost.content
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-primary hover:bg-primary-dark"
