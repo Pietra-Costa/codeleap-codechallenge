@@ -70,7 +70,7 @@ function Comments({ postId, postOwner }) {
   };
 
   return (
-    <div className="border-t border-primary p-6 bg-white dark:bg-gray-700 rounded-xl shadow-lg">
+    <div className="border-t border-primary p-6 bg-white dark:bg-gray-700 hadow-lg">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-[20px] font-bold">Comments</h2>
         <button
@@ -150,11 +150,10 @@ function Comments({ postId, postOwner }) {
               <button
                 onClick={handleAddComment}
                 disabled={!newComment.trim() || isSubmitting}
-                className={`absolute right-2 bottom-2 p-2 rounded-full ${
-                  !newComment.trim() || isSubmitting
-                    ? "text-gray-400 cursor-not-allowed"
-                    : "text-[#7695EC] hover:bg-blue-50"
-                } transition-colors`}
+                className={`absolute right-2 bottom-2 p-2 rounded-full ${!newComment.trim() || isSubmitting
+                  ? "text-gray-400 cursor-not-allowed"
+                  : "text-[#7695EC] hover:bg-blue-50"
+                  } transition-colors`}
               >
                 <IoMdSend className="text-2xl" />
               </button>
