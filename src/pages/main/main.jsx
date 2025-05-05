@@ -88,9 +88,8 @@ export default function Main() {
             <button
               onClick={toggleTheme}
               className="p-1.5 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
-              aria-label={`Switch to ${
-                theme === "light" ? "dark" : "light"
-              } theme`}
+              aria-label={`Switch to ${theme === "light" ? "dark" : "light"
+                } theme`}
             >
               {theme === "light" ? (
                 <FiMoon className="w-6 h-6 text-white" />
@@ -213,11 +212,10 @@ export default function Main() {
               whileTap={{
                 scale: !newPost.title || !newPost.content ? 1 : 0.95,
               }}
-              className={`w-[120px] h-[32px] mt-4 rounded-lg text-white font-bold  relative overflow-hidden ${
-                !newPost.title || !newPost.content
+              className={`w-[120px] h-[32px] mt-4 rounded-lg text-white font-bold  relative overflow-hidden ${!newPost.title || !newPost.content
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-primary hover:bg-primary-dark"
-              }`}
+                }`}
               disabled={
                 !newPost.title || !newPost.content || postStatus === "posting"
               }

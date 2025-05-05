@@ -181,7 +181,7 @@ export default function Feed({ refresh }) {
           </svg>
         </div>
 
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-wrap gap-1 mb-6">
           <motion.button
             onClick={() => setFilterType("all")}
             className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${filterType === "all"
