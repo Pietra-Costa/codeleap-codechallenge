@@ -184,11 +184,10 @@ export default function Feed({ refresh }) {
         <div className="flex flex-wrap gap-1">
           <motion.button
             onClick={() => setFilterType("all")}
-            className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
-              filterType === "all"
-                ? "bg-primary text-white"
-                : "bg-gray-100 hover:bg-gray-200 text-primary"
-            }`}
+            className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${filterType === "all"
+              ? "bg-primary text-white"
+              : "bg-gray-100 hover:bg-gray-200 text-primary"
+              }`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -196,11 +195,10 @@ export default function Feed({ refresh }) {
           </motion.button>
           <motion.button
             onClick={() => setFilterType("mine")}
-            className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
-              filterType === "mine"
-                ? "bg-primary text-white"
-                : "bg-gray-100 hover:bg-gray-200 text-primary"
-            }`}
+            className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${filterType === "mine"
+              ? "bg-primary text-white"
+              : "bg-gray-100 hover:bg-gray-200 text-primary"
+              }`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >

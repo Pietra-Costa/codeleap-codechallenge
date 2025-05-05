@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function EditModal({
   isOpen,
@@ -11,10 +12,33 @@ export default function EditModal({
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
 
+  // const handleSubmit = () => {
+  //   onSave(title, content);
+  //   onClose();
+  // };
+
   const handleSubmit = () => {
-    onSave(title, content);
+    const trimmedTitle = title.trim();
+    const trimmedContent = content.trim();
+
+    if (trimmedTitle === "" && trimmedContent === "") {
+      toast.error("You need to add a title or a content to save the post! (Or just cancel de edition)");
+      return;
+    }
+
+    if (trimmedTitle === initialTitle && trimmedContent === initialContent) {
+      onClose();
+      return;
+    }
+
+    onSave(trimmedTitle, trimmedContent);
     onClose();
   };
+
+  useEffect(() => {
+    setTitle(initialTitle);
+    setContent(initialContent);
+  }, [initialTitle, initialContent]);
 
   return (
     <AnimatePresence>
@@ -102,17 +126,12 @@ export default function EditModal({
                   !title || !content
                     ? {}
                     : {
-                        scale: 1.05,
-                        boxShadow: "0 4px 8px rgba(71, 185, 96, 0.3)",
-                      }
+                      scale: 1.05,
+                      boxShadow: "0 4px 8px rgba(71, 185, 96, 0.3)",
+                    }
                 }
                 whileTap={!title || !content ? {} : { scale: 0.95 }}
-                className={`rounded-lg font-bold text-base h-8 w-[120px] px-8 ${
-                  !title || !content
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-[#47B960] text-white"
-                }`}
-                disabled={!title || !content}
+                className="rounded-lg font-bold text-base h-8 w-[120px] px-8 bg-[#47B960] text-white"
                 onClick={handleSubmit}
               >
                 {!title || !content ? (
@@ -126,6 +145,8 @@ export default function EditModal({
                     Save
                   </motion.span>
                 )}
+
+                <ToastContainer />
               </motion.button>
             </motion.div>
           </motion.div>
