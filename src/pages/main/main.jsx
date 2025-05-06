@@ -7,7 +7,8 @@ import { FiMoon, FiPaperclip, FiSun } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaRocket } from "react-icons/fa";
 import Picker from "emoji-picker-react";
-import { BsEmojiSmile } from "react-icons/bs";
+import { BsEmojiSmile, BsPerson } from "react-icons/bs";
+import Profile from "../../components/profile/profile";
 
 export default function Main() {
   const { user, logout } = useAuth();
@@ -17,7 +18,6 @@ export default function Main() {
   const [postStatus, setPostStatus] = useState(null);
   const [theme, setTheme] = useState("light");
   const [activePicker, setActivePicker] = useState(null);
-
   const handleLogout = async () => {
     try {
       await logout();
@@ -88,6 +88,11 @@ export default function Main() {
     setActivePicker(null)
   };
 
+  const [showProfile, setShowProfile] = useState(false);
+
+  const toggleProfile = () => {
+    setShowProfile(!showProfile);
+  };
 
   return (
     <div className="flex justify-center">
@@ -115,6 +120,14 @@ export default function Main() {
             >
               <RiLogoutBoxLine className="text-2xl" />
             </button>
+            <div>
+              <button onClick={toggleProfile} className="text-2xl">
+                <BsPerson />
+              </button>
+
+              {/* Quando showProfile for true, o componente Profile será renderizado como um modal */}
+              {showProfile && <Profile closeModal={toggleProfile} />}
+            </div>
           </div>
         </header>
 
@@ -170,7 +183,7 @@ export default function Main() {
                   onClick={() =>
                     setActivePicker(activePicker === "content" ? null : "content")
                   }
-                  className="absolute top-2 right-2 text-2xl text-gray-500 hover:text-primary"
+                  className="absolute top-2 right-3 text-2xl text-gray-500 hover:text-primary"
                 >
                   <BsEmojiSmile />
                 </button>
