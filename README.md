@@ -1,4 +1,4 @@
-# 🚀 CodeLeap Frontend Challenge
+# CodeLeap Frontend Challenge
 
 [![Live Demo](https://img.shields.io/badge/demo-online-green?style=flat-square&logo=vercel)](https://codeleap-codechallenge.vercel.app/)
 [![Built with React](https://img.shields.io/badge/React-18-blue?style=flat-square&logo=react)](https://react.dev/)
@@ -56,12 +56,29 @@ A modern, fully responsive frontend web application built with React + Vite for 
 
 You can log in with the following test account:
 
-Email: codeleap@email.com
+Email: codeleap@email.com <br/>
 Password: codeleap123
 
 Or create your **own** account using:
 - Google login
 - Any email/password
+
+## Firebase Credentials (Local Environment)
+
+To run this project locally, you **must have access to the Firebase credentials** used in the appropriate environments (development, staging, or production).
+
+These credentials **must not be exposed publicly** or committed to the repository. Use a `.env.local` file (which should be ignored by Git) to store them securely.
+
+### 📄 Example `.env.local`
+
+```env
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+```
 
 ## ▶️ How to run the project
 
