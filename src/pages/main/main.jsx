@@ -6,6 +6,8 @@ import { RiLogoutBoxLine } from "react-icons/ri";
 import { FiMoon, FiPaperclip, FiSun } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaRocket } from "react-icons/fa";
+import Picker from "emoji-picker-react";
+import { BsEmojiSmile } from "react-icons/bs";
 
 export default function Main() {
   const { user, logout } = useAuth();
@@ -14,6 +16,7 @@ export default function Main() {
   const [imagePreview, setImagePreview] = useState(null);
   const [postStatus, setPostStatus] = useState(null);
   const [theme, setTheme] = useState("light");
+  const [activePicker, setActivePicker] = useState(null);
 
   const handleLogout = async () => {
     try {
@@ -77,6 +80,15 @@ export default function Main() {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
+  const handleEmojiClick = (emoji, field) => {
+    setNewPost((prevPost) => ({
+      ...prevPost,
+      [field]: prevPost[field] + emoji.emoji,
+    }));
+    setActivePicker(null)
+  };
+
+
   return (
     <div className="flex justify-center">
       <div
@@ -109,35 +121,75 @@ export default function Main() {
         <div className="border border-[#999999] m-6 p-6 rounded-2xl">
           <h1 className="font-bold text-[22px] mb-6">What's on your mind?</h1>
           <form>
-            <div className="flex flex-col mb-6">
+            <div className="flex flex-col mb-6 relative">
               <label className="font-normal text-[16px] mb-2">Title</label>
-              <input
-                className="border border-[#777777] rounded-lg p-2 placeholder:text-[#CCCCCC] text-[14px] font-normal dark:bg-gray-700 dark:border-gray-600 
-             focus:outline-none focus:border-primary focus:ring-0"
-                type="text"
-                placeholder="Hello World"
-                value={newPost.title}
-                onChange={e =>
-                  setNewPost({ ...newPost, title: e.target.value })
-                }
-              />
+              <div className="flex items-center relative">
+                <input
+                  className="flex-1 border border-[#777777] rounded-lg p-2 placeholder:text-[#CCCCCC] text-[14px] font-normal dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:border-primary pr-10" // Adicionado padding à direita para o ícone
+                  type="text"
+                  placeholder="Hello World"
+                  value={newPost.title}
+                  onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
+                />
+                <button
+                  type="button"
+                  onClick={() =>
+                    setActivePicker(activePicker === "title" ? null : "title")
+                  }
+                  className="absolute right-3 text-2xl text-gray-500 hover:text-primary"
+                >
+                  <BsEmojiSmile />
+                </button>
+              </div>
+              {activePicker === "title" && (
+                <div className="absolute top-full left-[-25px] sm:left-80 lg:left-[350px] z-10 mt-2">
+                  <Picker
+                    onEmojiClick={(emoji) => handleEmojiClick(emoji, "title")}
+                    pickerStyle={{
+                      position: "absolute",
+                      bottom: "40px",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                    }}
+                  />
+                </div>
+              )}
             </div>
 
-            <div className="flex flex-col mb-4">
+            <div className="flex flex-col mb-4 relative">
               <label className="font-normal text-[16px] mb-2">Content</label>
-              <textarea
-                className="border border-[#777777] rounded-lg p-2 placeholder:text-[#CCCCCC] text-[14px] font-normal dark:bg-gray-700 dark:border-gray-600 
-             focus:outline-none focus:border-primary focus:ring-0"
-                name="content"
-                placeholder="Content Here"
-                value={newPost.content}
-                onChange={e =>
-                  setNewPost({ ...newPost, content: e.target.value })
-                }
-              ></textarea>
+              <div className="relative">
+                <textarea
+                  className="w-full border border-[#777777] rounded-lg p-2 placeholder:text-[#CCCCCC] text-[14px] font-normal dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:border-primary"
+                  placeholder="Content here"
+                  value={newPost.content}
+                  onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
+                ></textarea>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setActivePicker(activePicker === "content" ? null : "content")
+                  }
+                  className="absolute top-2 right-2 text-2xl text-gray-500 hover:text-primary"
+                >
+                  <BsEmojiSmile />
+                </button>
+              </div>
+              {activePicker === "content" && (
+                <div className="absolute top-full left-[-25px] sm:left-80 lg:left-[350px] z-10 mt-2">
+                  <Picker
+                    onEmojiClick={(emoji) => handleEmojiClick(emoji, "content")}
+                    pickerStyle={{
+                      position: "absolute",
+                      bottom: "40px",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                    }}
+                  />
+                </div>
+              )}
             </div>
           </form>
-
           <div className="flex justify-center">
             {imagePreview && (
               <div className="w-60 h-60 flex items-center justify-center rounded-lg bg-gray-50 border border-primary mr-4 dark:bg-gray-700">
@@ -213,8 +265,8 @@ export default function Main() {
                 scale: !newPost.title || !newPost.content ? 1 : 0.95,
               }}
               className={`w-[120px] h-[32px] mt-4 rounded-lg text-white font-bold  relative overflow-hidden ${!newPost.title || !newPost.content
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-primary hover:bg-primary-dark"
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-primary hover:bg-primary-dark"
                 }`}
               disabled={
                 !newPost.title || !newPost.content || postStatus === "posting"
@@ -320,3 +372,4 @@ export default function Main() {
     </div>
   );
 }
+
