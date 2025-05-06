@@ -43,6 +43,7 @@ A modern, fully responsive frontend web application built with React + Vite for 
 - 🔍 Sorting and filtering options  
 - ✨ Pretty transitions and hover effects  
 - 📱 Responsive layout (mobile-first)
+- ⌨️ Use your favorite emojis in posts and comments!
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/6fbf74f7-9c08-4a05-ac28-2a5e7a947e77" width="600" alt="Mockup 1"/>
