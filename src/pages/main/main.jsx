@@ -8,7 +8,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaRocket } from "react-icons/fa";
 import Picker from "emoji-picker-react";
 import { BsEmojiSmile, BsPerson } from "react-icons/bs";
-import Profile from "../../components/profile/profile";
 
 export default function Main() {
   const { user, logout } = useAuth();
@@ -120,14 +119,6 @@ export default function Main() {
             >
               <RiLogoutBoxLine className="text-2xl" />
             </button>
-            <div>
-              <button onClick={toggleProfile} className="text-2xl">
-                <BsPerson />
-              </button>
-
-              {/* Quando showProfile for true, o componente Profile será renderizado como um modal */}
-              {showProfile && <Profile closeModal={toggleProfile} />}
-            </div>
           </div>
         </header>
 
