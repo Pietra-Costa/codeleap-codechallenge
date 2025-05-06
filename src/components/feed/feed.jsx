@@ -277,20 +277,91 @@ export default function Feed({ refresh }) {
 
       {isImageEnlarged && selectedImage && (
         <motion.div
-          className="fixed top-0 left-0 right-0 bottom-0 bg-[#777777CC] bg-opacity-80 flex justify-center items-center z-50"
+          className="fixed inset-0 h-[100vh] bg-black/70 backdrop-blur-sm flex justify-center items-center z-50 p-4 overflow-y-auto"
           onClick={() => setIsImageEnlarged(false)}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <motion.img
-            src={selectedImage}
-            alt="Enlarged"
-            className="w-2xl max-h-full object-contain"
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", stiffness: 100 }}
-          />
+          <motion.div
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-2xl w-full overflow-hidden relative"
+            onClick={(e) => e.stopPropagation()}
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.95, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+          >
+            <motion.button
+              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm shadow-sm"
+              onClick={() => setIsImageEnlarged(false)}
+              aria-label="Fechar modal"
+              whileHover={{ scale: 1.1, rotate: 90 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 400 }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-800 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </motion.button>
+
+            <div className="relative w-full">
+              <motion.div
+                className="w-full h-2 bg-primary animate-pulse rounded-t-xl"
+                initial={{ y: -10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              ></motion.div>
+
+              <div className="w-full rounded-2xl flex items-center justify-center p-4 bg-gray-50 dark:bg-gray-700 rounded-t-xl">
+                <motion.img
+                  src={selectedImage}
+                  alt="Post content"
+                  className="max-h-[60vh] w-auto object-contain rounded-lg"
+                  initial={{ scale: 0.98, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.4 }}
+                />
+              </div>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+              >
+                <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
+                  {posts.find(post => post.image === selectedImage)?.title || "Post"}
+                </h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  @{posts.find(post => post.image === selectedImage)?.username || "Usuário"}
+                </p>
+              </motion.div>
+
+              <motion.div
+                className="prose dark:prose-invert text-gray-600 dark:text-gray-300 text-sm"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3 }}
+              >
+                {posts.find(post => post.image === selectedImage)?.content || "No description"}
+              </motion.div>
+
+              <motion.div
+                className="pt-4 border-t border-gray-200 dark:border-gray-700"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.4 }}
+              >
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Posted {formatDistanceToNow(
+                    new Date(posts.find(post => post.image === selectedImage)?.created_datetime || new Date()),
+                    { addSuffix: true }
+                  )}
+                </p>
+              </motion.div>
+            </div>
+          </motion.div>
         </motion.div>
       )}
 
